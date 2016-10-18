@@ -11,7 +11,7 @@ $VERSION = "1";
 	authors     => 'Hedede',
 	contact     => 'Haddayn@gmail.com',
 	name        => 'notify.pl',
-	description => 'Notification sender, ',
+	description => 'Displays desktop notifications when my name is mentioned.',
 	license     => 'GNU General Public License v3',
 	url         => '',
 );
