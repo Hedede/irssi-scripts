@@ -51,6 +51,7 @@ sub help {
 sub find_wave {
 	my $sounddir = Irssi::settings_get_str("SOUND_dir");
 	my $sound    = shift(@_);
+	$sound = quotemeta($sound);
 	unless ($sound =~ /^.*\.wav$/i) {
 		$sound = $sound . ".*.wav";
 	}
