@@ -38,7 +38,7 @@ sub notify_send {
 	$summary = sanitize($summary);
 	$message = sanitize($message);
 
-	my $cmd = "EXEC notify-send '" . $summary . "' '" . $message . "'";
+	my $cmd = "EXEC notify-send -- '" . $summary . "' '" . $message . "'";
 	$server->command($cmd);
 }
 
