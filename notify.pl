@@ -6,6 +6,8 @@ use strict;
 use Irssi;
 use vars qw($VERSION %IRSSI);
 
+use HTML::Entities;
+
 $VERSION = "1";
 %IRSSI = (
 	authors     => 'Hedede',
@@ -19,6 +21,10 @@ $VERSION = "1";
 
 sub sanitize {
 	my ($text) = @_;
+	encode_entities($text,'\'<>&');
+	my $apos = "&#39;";
+	my $aposenc = "\&apos;";
+	$text =~ s/$apos/$aposenc/g;
 	$text =~ s/\\/\\\\/g;
 	$text =~ s/"/\\"/g;
 	$text =~ s/\$/\\\$/g;
