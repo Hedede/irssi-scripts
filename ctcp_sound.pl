@@ -32,7 +32,8 @@ my $autoget = Irssi::settings_get_bool("SOUND_autoget");
 use File::Basename;
 use File::Find;
 
-Irssi::command_bind("wav", "sound_command");
+Irssi::command_bind("wav",   "sound_command");
+Irssi::command_bind("ss",    "stop_sounds");
 Irssi::signal_add_last("complete word", "sound_complete");
 Irssi::signal_add("event privmsg", "sound_autosend");
 Irssi::signal_add("ctcp msg", "CTCP_sound");
@@ -79,6 +80,14 @@ sub play_sound {
 	my $playcmd = system("$soundcmd \"$wavfile\" 2>/dev/null &");
 }
 
+sub stop_sounds {
+	my ($data, $server, $witem) = @_;
+	my $channel = $witem->{name};
+	my $soundcmd = Irssi::settings_get_str("SOUND_command");
+	my $killed = `pkill -cf \"$soundcmd\"`;
+	$server->command("/action $channel killed $killed sounds");
+};
+
 sub sound_command {
 	my $sounddir = Irssi::settings_get_str("SOUND_dir") . "/";
 
@@ -88,9 +97,15 @@ sub sound_command {
 	my $sound       = $1;
 	my $rest        = $2;
 	$rest =~ s/ *//;
-	unless ($rest eq "") { $rest = " " . $rest;};
 
-	if (!($sound =~ /.*\.wav/i))    { $sound = $sound . ".wav";}
+	if ($sound =~ /(.*)\.wav/i) {
+		$sound = $1;
+	}
+
+	$rest = $sound if ($rest eq "");
+	$rest = " " . $rest;
+	$sound .= ".wav";
+
 	if ($witem && ($witem->{type} eq "CHANNEL" || $witem->{type} eq "QUERY")) {
 		my $wavefile = (find_wave($sound))[0];
 		if ( -r $wavefile ) {
