@@ -235,8 +235,18 @@ sub CTCP_sound {
 		}
 	}
 
+	# TODO: compare with receiver (i.e. me) instead of #
+	if ( substr($target, 0, 1) ne '#' )
+	{
+		$target = $nick;
+	}
 
 	my $wItem = $server->window_find_item($target);
-	$wItem->printformat(MSGLEVEL_CTCPS, 'ctcp', $nick, $output);
+	if ($wItem) {
+		$wItem->printformat(MSGLEVEL_CTCPS, 'ctcp', $nick, $output);
+	} else {
+		Irssi::print "Can't find window $target.";
+		Irssi::printformat(MSGLEVEL_CTCPS, 'ctcp', $nick, $output);
+	}
 	Irssi::signal_stop();
 }
