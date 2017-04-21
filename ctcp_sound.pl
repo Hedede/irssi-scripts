@@ -24,7 +24,7 @@ Irssi::settings_add_int( 'PGGB', 'SOUND_display',   5);
 Irssi::settings_add_str( 'PGGB', 'SOUND_hilight',   '(none)');
 Irssi::settings_add_str( 'PGGB', 'SOUND_DCC',       '(none)');
 Irssi::settings_add_str( 'PGGB', 'SOUND_dir',       $defhome . '/sounds');
-Irssi::settings_add_str( 'PGGB', 'SOUND_command',   'play -q');
+Irssi::settings_add_str( 'PGGB', 'SOUND_command',   'paplay --client-name="CTCP sound"');
 my $autoget = Irssi::settings_get_bool("SOUND_autoget");
 
 ########################################
