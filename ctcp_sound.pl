@@ -84,7 +84,8 @@ sub stop_sounds {
 	my ($data, $server, $witem) = @_;
 	my $channel = $witem->{name};
 	my $soundcmd = Irssi::settings_get_str("SOUND_command");
-	my $killed = `pkill -cf \"$soundcmd\"`;
+	$soundcmd =~ s/[\'\"]//g;
+	my $killed = `pkill -cf '$soundcmd'`;
 	$server->command("/action $channel killed $killed sounds");
 };
 
